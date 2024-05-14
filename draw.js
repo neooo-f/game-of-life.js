@@ -69,21 +69,3 @@ export const refresh = (
   drawGrid(rows, cols, cellSize, gridColor, ctx);
   drawCells(board, cellSize, blockColor, ctx);
 };
-
-// export const setBlock = (row, col, cellSize, color, board, ctx) => {
-//   drawBlock(row, col, cellSize, color, ctx);
-//   updateBoard(row, col, 1, board);
-// };
-
-// export const removeBlock = (
-//   row,
-//   col,
-//   cellSize,
-//   bgColor,
-//   gridColor,
-//   board,
-//   ctx
-// ) => {
-//   clearCell(row, col, cellSize, bgColor, gridColor, ctx);
-//   updateBoard(row, col, 0, board);
-// };

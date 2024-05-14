@@ -1,4 +1,4 @@
-import { drawCells, drawGrid, refresh } from "./draw.js";
+import { refresh } from "./draw.js";
 
 // canvas and context
 const canvas = document.createElement("canvas");
@@ -20,39 +20,26 @@ const BLOCK_COLOR = "black";
 const GRID_ROWS = Math.ceil(canvasHeight / GRID_CELLSIZE);
 const GRID_COLS = Math.ceil(canvasWidth / GRID_CELLSIZE);
 
-// game
-// draw game board
-drawGrid(GRID_ROWS, GRID_COLS, GRID_CELLSIZE, GRID_COLOR, ctx);
-
 // array representing board
 const board = Array.from(Array(GRID_ROWS), () => new Array(GRID_COLS).fill(0));
 
-board[0][0] = 1;
-board[1][1] = 1;
-board[1][2] = 1;
-
-drawCells(board, GRID_CELLSIZE, BLOCK_COLOR, ctx);
-
-function wait(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-let index = 0;
-let index2 = 0;
+let row = 0;
+let col = 0;
 
 async function update() {
   // TODO: just call it every 100th frame or so
 
-  if (index == board.length) {
-    index = 0;
-    index2 = 0;
+  if (row == board.length) {
+    row = 0;
+    col++;
   }
 
-  //   if (index2 == board[0].length) {
-  //     index2 = 0;
-  //   }
+  if (col == board[0].length) {
+    col = 0;
+    row = 0;
+  }
 
-  board[index][index2] = 1;
+  board[row][col] = 1;
 
   refresh(
     canvasWidth,
@@ -66,9 +53,8 @@ async function update() {
     ctx
   );
 
-  board[index][index2] = 0;
-  index++;
-  index2++;
+  board[row][col] = 0;
+  row++;
 
   await wait(1000);
 
@@ -77,18 +63,3 @@ async function update() {
 }
 
 update();
-
-// board[0][0] = 0;
-// board[1][1] = 0;
-
-// refresh(
-//   canvasWidth,
-//   canvasHeight,
-//   GRID_ROWS,
-//   GRID_COLS,
-//   board,
-//   GRID_CELLSIZE,
-//   GRID_COLOR,
-//   BLOCK_COLOR,
-//   ctx
-// );

@@ -1,3 +1,1 @@
-export const updateBoard = (row, col, value, board) => {
-  board[row][col] = value;
-};
+export const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
