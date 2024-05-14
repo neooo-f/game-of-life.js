@@ -16,7 +16,7 @@ const drawLine = (p1, p2, ctx) => {
   ctx.stroke();
 };
 
-export const drawBoard = (rows, cols, cellSize, color, ctx) => {
+export const drawGrid = (rows, cols, cellSize, color, ctx) => {
   ctx.strokeStyle = color;
 
   for (let row = 0; row <= rows; row++) {
@@ -54,7 +54,7 @@ export const drawCells = (board, cellSize, color, ctx) => {
   }
 };
 
-export const refreshBoard = (
+export const refresh = (
   canvasWidth,
   canvasHeight,
   rows,
@@ -66,7 +66,7 @@ export const refreshBoard = (
   ctx
 ) => {
   clearCanvas(canvasWidth, canvasHeight, ctx);
-  drawBoard(rows, cols, cellSize, gridColor, ctx);
+  drawGrid(rows, cols, cellSize, gridColor, ctx);
   drawCells(board, cellSize, blockColor, ctx);
 };
 

@@ -1,0 +1,10 @@
+Rules of Conway's Game of Life
+------------------------------
+
+1. Jede lebende Zelle mit weniger als zwei lebenden Nachbarn stirbt, als ob sie unterbevölkert wäre.
+
+2. Jede lebende Zelle mit zwei oder drei lebenden Nachbarn lebt in der nächsten Generation weiter.
+
+3. Jede lebende Zelle mit mehr als drei lebenden Nachbarn stirbt wie durch Überbevölkerung.
+
+4. Jede tote Zelle mit genau drei lebenden Nachbarn wird wie durch Fortpflanzung zu einer lebenden Zelle.
