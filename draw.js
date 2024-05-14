@@ -5,6 +5,10 @@ class Point {
   }
 }
 
+const clearCanvas = (canvasWidth, canvasHeight, ctx) => {
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+};
+
 const drawLine = (p1, p2, ctx) => {
   ctx.beginPath();
   ctx.moveTo(p1.x, p1.y);
@@ -37,68 +41,49 @@ const drawBlock = (row, col, cellSize, color, ctx) => {
   ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
 };
 
-const clearCanvas = (canvasWidth, canvasHeight) => {
-  context.clearRect(0, 0, canvasWidth, canvasHeight);
+export const drawCells = (board, cellSize, color, ctx) => {
+  // draws all blocks on the canvas based on the given board array
+
+  const numRows = board.length;
+  const numCols = board[0].length;
+
+  for (let row = 0; row < numRows; row++) {
+    for (let col = 0; col < numCols; col++) {
+      if (board[row][col] == 1) drawBlock(row, col, cellSize, color, ctx);
+    }
+  }
 };
 
-const clearCell = (
+export const refreshBoard = (
   canvasWidth,
   canvasHeight,
   rows,
   cols,
-  cellSize,
-  color,
-  ctx
-) => {
-  clearCanvas(canvasWidth, canvasHeight);
-  drawBoard(rows, cols, cellSize, color, ctx);
-  // drawCells
-};
-
-// use later for optimization (redrawing only the cleared rects)
-/* const clearCell = (row, col, cellSize, bgColor, color, ctx) => {
-  const x = col * cellSize;
-  const y = row * cellSize;
-  ctx.fillStyle = bgColor;
-  ctx.fillRect(x, y, cellSize, cellSize);
-
-  ctx.strokeStyle = color;
-
-  // redraws horizontal lines of the board
-  drawLine(new Point(x, y), new Point(x + cellSize, y), ctx);
-  drawLine(
-    new Point(x, y + cellSize),
-    new Point(x + cellSize, y + cellSize),
-    ctx
-  );
-
-  // redraws vertical lines of the board
-  drawLine(new Point(x, y), new Point(x, y + cellSize), ctx);
-  drawLine(
-    new Point(x + cellSize, y),
-    new Point(x + cellSize, y + cellSize),
-    ctx
-  );
-}; */
-
-export const updateBoard = (row, col, value, board) => {
-  board[row][col] = value;
-};
-
-export const setBlock = (row, col, cellSize, color, board, ctx) => {
-  drawBlock(row, col, cellSize, color, ctx);
-  updateBoard(row, col, 1, board);
-};
-
-export const removeBlock = (
-  row,
-  col,
-  cellSize,
-  bgColor,
-  gridColor,
   board,
+  cellSize,
+  gridColor,
+  blockColor,
   ctx
 ) => {
-  clearCell(row, col, cellSize, bgColor, gridColor, ctx);
-  updateBoard(row, col, 0, board);
+  clearCanvas(canvasWidth, canvasHeight, ctx);
+  drawBoard(rows, cols, cellSize, gridColor, ctx);
+  drawCells(board, cellSize, blockColor, ctx);
 };
+
+// export const setBlock = (row, col, cellSize, color, board, ctx) => {
+//   drawBlock(row, col, cellSize, color, ctx);
+//   updateBoard(row, col, 1, board);
+// };
+
+// export const removeBlock = (
+//   row,
+//   col,
+//   cellSize,
+//   bgColor,
+//   gridColor,
+//   board,
+//   ctx
+// ) => {
+//   clearCell(row, col, cellSize, bgColor, gridColor, ctx);
+//   updateBoard(row, col, 0, board);
+// };
