@@ -32,15 +32,73 @@ export const drawBoard = (rows, cols, cellSize, color, ctx) => {
   }
 };
 
+const drawBlock = (row, col, cellSize, color, ctx) => {
+  ctx.fillStyle = color;
+  ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+};
+
+const clearCanvas = (canvasWidth, canvasHeight) => {
+  context.clearRect(0, 0, canvasWidth, canvasHeight);
+};
+
+const clearCell = (
+  canvasWidth,
+  canvasHeight,
+  rows,
+  cols,
+  cellSize,
+  color,
+  ctx
+) => {
+  clearCanvas(canvasWidth, canvasHeight);
+  drawBoard(rows, cols, cellSize, color, ctx);
+  // drawCells
+};
+
+// use later for optimization (redrawing only the cleared rects)
+/* const clearCell = (row, col, cellSize, bgColor, color, ctx) => {
+  const x = col * cellSize;
+  const y = row * cellSize;
+  ctx.fillStyle = bgColor;
+  ctx.fillRect(x, y, cellSize, cellSize);
+
+  ctx.strokeStyle = color;
+
+  // redraws horizontal lines of the board
+  drawLine(new Point(x, y), new Point(x + cellSize, y), ctx);
+  drawLine(
+    new Point(x, y + cellSize),
+    new Point(x + cellSize, y + cellSize),
+    ctx
+  );
+
+  // redraws vertical lines of the board
+  drawLine(new Point(x, y), new Point(x, y + cellSize), ctx);
+  drawLine(
+    new Point(x + cellSize, y),
+    new Point(x + cellSize, y + cellSize),
+    ctx
+  );
+}; */
+
 export const updateBoard = (row, col, value, board) => {
   board[row][col] = value;
 };
 
-export const setBlock = () => {};
+export const setBlock = (row, col, cellSize, color, board, ctx) => {
+  drawBlock(row, col, cellSize, color, ctx);
+  updateBoard(row, col, 1, board);
+};
 
-export const removeBlock = () => {};
-
-export const drawBlock = (row, col, cellSize, color, ctx) => {
-  ctx.fillStyle = color;
-  ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+export const removeBlock = (
+  row,
+  col,
+  cellSize,
+  bgColor,
+  gridColor,
+  board,
+  ctx
+) => {
+  clearCell(row, col, cellSize, bgColor, gridColor, ctx);
+  updateBoard(row, col, 0, board);
 };
