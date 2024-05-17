@@ -10,19 +10,34 @@ const CELL_COMBINATIONS = [
   [+1, +1],
 ];
 
+// for no edge limit
+const getWrappedIndex = (index, max) => {
+  if (index < 0) {
+    return max - 1;
+  }
+  if (index >= max) {
+    return 0;
+  }
+  return index;
+};
+
+// algo
 export const checkCells = (board, nextBoard) => {
+  const rows = board.length;
+  const cols = board[0].length;
+
   // loop takes action for every cell
-  for (let row = 0; row < board.length; row++) {
-    for (let col = 0; col < board[0].length; col++) {
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
       let neighbourCounter = 0;
 
       CELL_COMBINATIONS.forEach((combination) => {
-        try {
-          if (board[row + combination[0]][col + combination[1]] == 1)
-            neighbourCounter++;
-        } catch (err) {}
+        const newRow = getWrappedIndex(row + combination[0], rows);
+        const newCol = getWrappedIndex(col + combination[1], cols);
 
-        // TODO: implement no corner limit
+        if (board[newRow][newCol] === 1) {
+          neighbourCounter++;
+        }
       });
 
       // four game rules

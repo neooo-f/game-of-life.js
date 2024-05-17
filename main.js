@@ -14,15 +14,33 @@ ctx.canvas.width = canvasWidth;
 ctx.canvas.height = canvasHeight;
 
 // game constants
-const GRID_CELLSIZE = 10; // init 50
+const GRID_CELLSIZE = 50; // init 50
 const GRID_COLOR = "grey";
 const BLOCK_COLOR = "black";
 const GRID_ROWS = Math.ceil(canvasHeight / GRID_CELLSIZE);
 const GRID_COLS = Math.ceil(canvasWidth / GRID_CELLSIZE);
-const ITERATION_TIMEOUT = 250; // init 1000
+const ITERATION_TIMEOUT = 0; // init 1000
 
 // array representing board
 let board = Array.from(Array(GRID_ROWS), () => new Array(GRID_COLS).fill(0));
+
+// random stuff
+// for (let row = 0; row < GRID_ROWS; row++) {
+//   for (let col = 0; col < GRID_COLS; col++) {
+//     board[row][col] = Math.random() < 0.5 ? 0 : 1;
+//   }
+// }
+
+// random with range
+// for (let row = 0; row < GRID_ROWS; row++) {
+//   for (let col = 0; col < GRID_COLS; col++) {
+//     if ((row + col) % 2 === 0) {
+//       board[row][col] = Math.random() < 0.5 ? 0 : 1;
+//     } else {
+//       board[row][col] = 0;
+//     }
+//   }
+// }
 
 // initial refresh on pageload
 refresh(
