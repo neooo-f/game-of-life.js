@@ -41,6 +41,17 @@ const drawBlock = (row, col, cellSize, color, ctx) => {
   ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
 };
 
+export const setBlock = (e, cellSize, board) => {
+  // places block on canvas based on user input (click)
+  const col = Math.floor(e.x / cellSize);
+  const row = Math.floor(e.y / cellSize);
+
+  // if a block already exists on that position, delete it
+  if (board[row][col] === 1) {
+    board[row][col] = 0;
+  } else board[row][col] = 1;
+};
+
 export const drawCells = (board, cellSize, color, ctx) => {
   // draws all blocks on the canvas based on the given board array
 

@@ -1,4 +1,4 @@
-import { refresh } from "./draw.js";
+import { refresh, setBlock } from "./draw.js";
 import { checkCells, wait } from "./logic-helper.js";
 
 // canvas and context
@@ -13,27 +13,50 @@ const canvasHeight = window.innerHeight;
 ctx.canvas.width = canvasWidth;
 ctx.canvas.height = canvasHeight;
 
-// constants
-const GRID_CELLSIZE = 50;
+// game constants
+const GRID_CELLSIZE = 10; // init 50
 const GRID_COLOR = "grey";
 const BLOCK_COLOR = "black";
 const GRID_ROWS = Math.ceil(canvasHeight / GRID_CELLSIZE);
 const GRID_COLS = Math.ceil(canvasWidth / GRID_CELLSIZE);
+const ITERATION_TIMEOUT = 250; // init 1000
 
 // array representing board
 let board = Array.from(Array(GRID_ROWS), () => new Array(GRID_COLS).fill(0));
 
-// board[0][2] = 1;
-// board[1][1] = 1;
-// board[2][2] = 1;
-// board[1][2] = 1;
-// board[1][3] = 1;
+// initial refresh on pageload
+refresh(
+  canvasWidth,
+  canvasHeight,
+  GRID_ROWS,
+  GRID_COLS,
+  board,
+  GRID_CELLSIZE,
+  GRID_COLOR,
+  BLOCK_COLOR,
+  ctx
+);
 
-board[3][5] = 1;
-board[4][6] = 1;
-board[5][4] = 1;
-board[5][5] = 1;
-board[5][6] = 1;
+// track player click on board
+const handleCanvasClick = (e) => {
+  setBlock(e, GRID_CELLSIZE, board);
+  refresh(
+    canvasWidth,
+    canvasHeight,
+    GRID_ROWS,
+    GRID_COLS,
+    board,
+    GRID_CELLSIZE,
+    GRID_COLOR,
+    BLOCK_COLOR,
+    ctx
+  );
+};
+
+canvas.addEventListener("click", handleCanvasClick);
+
+// init variable for anmination id to get controll over animationloop
+let animate = false;
 
 // one iteration of the game
 async function update() {
@@ -49,14 +72,31 @@ async function update() {
     ctx
   );
 
+  if (!animate) return;
+
   const nextBoard = board.map((row) => [...row]);
   checkCells(board, nextBoard);
   board = nextBoard;
 
   // time diff between every iteration
-  await wait(200);
+  await wait(ITERATION_TIMEOUT);
   console.log("frame updated");
   requestAnimationFrame(update);
 }
 
-// update();
+document.addEventListener("keyup", (e) => {
+  console.log("enter event", animate);
+
+  // checks if enter key is released -> starts / pauses game
+  if (e.keyCode == 13) {
+    if (!animate) {
+      canvas.removeEventListener("click", handleCanvasClick);
+      animate = true;
+      update();
+      return;
+    }
+
+    animate = false;
+    canvas.addEventListener("click", handleCanvasClick);
+  }
+});

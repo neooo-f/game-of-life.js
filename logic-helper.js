@@ -21,8 +21,11 @@ export const checkCells = (board, nextBoard) => {
           if (board[row + combination[0]][col + combination[1]] == 1)
             neighbourCounter++;
         } catch (err) {}
+
+        // TODO: implement no corner limit
       });
 
+      // four game rules
       if (neighbourCounter === 3) nextBoard[row][col] = 1;
       if (
         neighbourCounter >= 4 ||
